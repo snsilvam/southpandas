@@ -1,6 +1,8 @@
 package database
 
 import (
+	//El paquete contexto nos permite definir variables tipo contexto, que controlaran las solicitudes entrantes a un servidor.
+	//The context package allows us to define context variables that will control incoming requests to a server.
 	"context"
 	"database/sql"
 
