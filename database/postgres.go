@@ -4,6 +4,8 @@ import (
 	//El paquete contexto nos permite definir variables tipo contexto, que controlaran las solicitudes entrantes a un servidor.
 	//The context package allows us to define context variables that will control incoming requests to a server.
 	"context"
+	/*El paquete database/sql entrega una interfaz a nuestra aplicacion para interactuar con bases de datos sql.
+	The database/sql package provides an interface to our application to interact with sql databases.*/
 	"database/sql"
 
 	_ "github.com/lib/pq"
