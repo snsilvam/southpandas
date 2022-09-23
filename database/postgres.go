@@ -7,7 +7,8 @@ import (
 	/*El paquete database/sql entrega una interfaz a nuestra aplicacion para interactuar con bases de datos sql.
 	The database/sql package provides an interface to our application to interact with sql databases.*/
 	"database/sql"
-
+	/*Es el controlador de base de datos para postgresql, que nos ayuda con las interacciones del paquete database/sql
+	It is the database driver for postgresql, which helps us with the interactions of the database/sql package.*/
 	_ "github.com/lib/pq"
 	"southpandas.com/go/cqrs/models"
 )
