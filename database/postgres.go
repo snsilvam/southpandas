@@ -13,8 +13,9 @@ import (
 	"southpandas.com/go/cqrs/models"
 )
 
-//In order to connect the postgres data base, use the PostgresRepository
 type PostgresRepository struct {
+	/* Este atributo nos permite construir y liberar conexiones con la base de datos.
+	   This attribute allows us to build and release connections to the database. */
 	db *sql.DB
 }
 
