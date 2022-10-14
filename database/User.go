@@ -13,30 +13,33 @@ import (
 	"southpandas.com/go/cqrs/models"
 )
 
-type PostgresRepository struct {
+/* ----- Repository Design Pattern/ Patron de diseño repositorio ----- */
+type PostgresRepositoryUser struct {
 	/* Este atributo nos permite construir y liberar conexiones con la base de datos.
 	   This attribute allows us to build and release connections to the database. */
 	db *sql.DB
 }
 
-func NewPostgresRepository(url string) (*PostgresRepository, error) {
+// Esta funcion se encargara de construir el objeto o abrir la conexion con base de datos.
+func NewPostgresRepositoryUser(url string) (*PostgresRepositoryUser, error) {
 	db, err := sql.Open("postgres", url)
 	if err != nil {
 		return nil, err
 	}
-	return &PostgresRepository{db}, nil
+	return &PostgresRepositoryUser{db}, nil
 }
 
-func (repo *PostgresRepository) Close() {
+// Esta funcion se encargara de cerrar la conexion con la base de datos.
+func (repo *PostgresRepositoryUser) Close() {
 	repo.db.Close()
 }
 
-func (repo *PostgresRepository) InsertUser(ctx context.Context, user *models.User) error {
+func (repo *PostgresRepositoryUser) InsertUser(ctx context.Context, user *models.User) error {
 	_, err := repo.db.ExecContext(ctx, "INSERT INTO users (id, name, email, address) values ($1, $2, $3, $4)", user.ID, user.Email, user.Address, user.Name)
 	return err
 }
 
-func (repo *PostgresRepository) ListUsers(ctx context.Context) ([]*models.User, error) {
+func (repo *PostgresRepositoryUser) ListUsers(ctx context.Context) ([]*models.User, error) {
 	rows, err := repo.db.QueryContext(ctx, "SELECT id, name, email, address, created_at FROM users")
 	if err != nil {
 		return nil, err
@@ -52,26 +55,3 @@ func (repo *PostgresRepository) ListUsers(ctx context.Context) ([]*models.User, 
 	}
 	return users, nil
 }
-
-/* func (repo *PostgresRepository) InsertUserClient(ctx context.Context, userClient *models.UserClient) error {
-	_, err := repo.db.ExecContext(ctx, "INSERT INTO usersClient (id, premium, user_id) values ($1, $2, $3)", userClient.ID, userClient.Premium, userClient.User_ID)
-	return err
-}
-
-func (repo *PostgresRepository) ListUsersClient(ctx context.Context) ([]*models.UserClient, error) {
-	rows, err := repo.db.QueryContext(ctx, "SELECT id, premium, user_id, created_at FROM usersClient")
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	usersclient := []*models.UserClient{}
-	for rows.Next() {
-		userClient := &models.UserClient{}
-		if err := rows.Scan(&userClient.ID, &userClient.Premium, &userClient.User_ID, &userClient.CreatedAt); err != nil {
-			return nil, err
-		}
-		usersclient = append(usersclient, userClient)
-	}
-	return usersclient, nil
-}
-*/
