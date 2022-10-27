@@ -6,6 +6,10 @@ import (
 	"southpandas.com/go/cqrs/models"
 )
 
+/*Con el objetivo de hacer la abstracción, para implementar el principio de inversión de dependencias(SOLID),
+creamos la siguiente interfaz*/
+/*In order to make the abstraction, to implement the dependency inversion principle(SOLID),
+we create the following interface */
 type EventStore interface {
 	Close()
 	PublishCreatedUser(ctx context.Context, user *models.User) error

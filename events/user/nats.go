@@ -9,6 +9,10 @@ import (
 	"southpandas.com/go/cqrs/models"
 )
 
+/*Realizamos la implementación de la abstracción(EventStore), en nuestro módulo de bajo nivel, para continuar con los
+principios SOLID*/
+/*We carry out the implementation of the abstraction (Event Store), in our low-level module, to continue with the
+SOLID principless*/
 type NatsEventStore struct {
 	conn            *nats.Conn
 	userCreatedSub  *nats.Subscription
