@@ -8,7 +8,7 @@ import (
 
 // Implementing design patron Repository
 type UserSouthpandasRepository interface {
-	CloseUserSouthpandas()
+	Close()
 	InsertUserSouthpandas(ctx context.Context, userSouthpandas *models.UserSouthPandas) error
 	ListUsersSouthpandas(ctx context.Context) ([]*models.UserSouthPandas, error)
 }
@@ -22,8 +22,8 @@ func SetRepositoryUserSouthpandas(r UserSouthpandasRepository) {
 }
 
 // Implement the UserSouthpandasRepository interface, func close
-func CloseUserSouthpandas() {
-	repositoryUserSouthpandas.CloseUserSouthpandas()
+func Close() {
+	repositoryUserSouthpandas.Close()
 }
 
 // Implement the UserSouthpandasRepository interface, func insert userSouthpandas

@@ -7,21 +7,21 @@ import (
 	"time"
 
 	"github.com/segmentio/ksuid"
-	events "southpandas.com/go/cqrs/events/user"
+	events "southpandas.com/go/cqrs/events/user-south-pandas"
 	"southpandas.com/go/cqrs/models"
-	repository "southpandas.com/go/cqrs/repository/user"
+	repository "southpandas.com/go/cqrs/repository/user-southpandas"
 )
 
 // Modelo para escribir en base de datos
-type createUserRequest struct {
-	Name    string `json:"name"`
-	Email   string `json:"email"`
-	Address string `json:"address"`
+type createUserSouthPandasRequest struct {
+	ID      string `json:"id"`
+	Type    string `json:"type"`
+	User_ID string `json:"user_id"`
 }
 
-func createUserHandler(w http.ResponseWriter, r *http.Request) {
-	//Inicializamos el objeto createUserRequest
-	var req createUserRequest
+func createUserSouthPandasHandler(w http.ResponseWriter, r *http.Request) {
+	//Inicializamos el objeto createUserSouthPandasRequest
+	var req createUserSouthPandasRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -34,23 +34,21 @@ func createUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//Asignamos los datos recibido al objeto que tenemos definido
-	user := models.User{
+	userSouthPandas := models.UserSouthPandas{
 		ID:        id.String(),
-		Name:      req.Name,
-		Email:     req.Email,
-		Address:   req.Address,
+		Type:      req.Type,
+		User_ID:   req.User_ID,
 		CreatedAt: createdAt,
 	}
 	//Enviamos nuestro objeto al metodo Insert del paquete repository
-	if err := repository.InsertUser(r.Context(), &user); err != nil {
+	if err := repository.InsertUserSouthPandas(r.Context(), &userSouthPandas); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-
 	//publicar nuevo evento en nats
-	if err := events.PublishCreatedUser(r.Context(), &user); err != nil {
-		log.Printf("El sistema, no pudo publicar, el usuario creado: %v", err)
+	if err := events.PublishCreatedUserSouthPandas(r.Context(), &userSouthPandas); err != nil {
+		log.Printf("El sistema, no pudo publicar, el usuario tipo SouthPandase, creado: %v", err)
 	}
 	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(user)
+	json.NewEncoder(w).Encode(userClient)
 }

@@ -39,7 +39,7 @@ func (repo *PostgresRepositoryUserClient) InsertUserClient(ctx context.Context, 
 	return err
 }
 
-func (repo *PostgresRepositoryUserClient) ListUserClient(ctx context.Context) ([]*models.UserClient, error) {
+func (repo *PostgresRepositoryUserClient) ListUsersClients(ctx context.Context) ([]*models.UserClient, error) {
 	rows, err := repo.db.QueryContext(ctx, "SELECT id, premium, user_id, created_at FROM userClient")
 	if err != nil {
 		return nil, err

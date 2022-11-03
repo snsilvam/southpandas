@@ -43,7 +43,7 @@ func (n *NatsEventStore) encodeMessage(m Message) ([]byte, error) {
 	}
 	return b.Bytes(), nil
 }
-func (n *NatsEventStore) PublishCreatedworkerOfClient(ctx context.Context, workerOfClient *models.WorkerOfClient) error {
+func (n *NatsEventStore) PublishCreatedWorkerOfClient(ctx context.Context, workerOfClient *models.WorkerOfClient) error {
 	msg := CreatedWorkerOfClientMessage{
 		ID:            workerOfClient.ID,
 		Description:   workerOfClient.Description,
@@ -61,10 +61,10 @@ func (n *NatsEventStore) decodeMessage(data []byte, m interface{}) error {
 	b.Write(data)
 	return gob.NewDecoder(&b).Decode(m)
 }
-func OnCreateworkerOfClient(ctx context.Context, f func(CreatedWorkerOfClientMessage)) error {
+func OnCreateWorkerOfClient(ctx context.Context, f func(CreatedWorkerOfClientMessage)) error {
 	return eventStore.OnCreateWorkerOfClient(f)
 }
-func (n *NatsEventStore) OnCreateworkerOfClient(f func(CreatedWorkerOfClientMessage)) (err error) {
+func (n *NatsEventStore) OnCreateWorkerOfClient(f func(CreatedWorkerOfClientMessage)) (err error) {
 	msg := CreatedWorkerOfClientMessage{}
 	n.workerOfClientCreatedSub, err = n.conn.Subscribe(msg.Type(), func(m *nats.Msg) {
 		n.decodeMessage(m.Data, &msg)
@@ -72,7 +72,7 @@ func (n *NatsEventStore) OnCreateworkerOfClient(f func(CreatedWorkerOfClientMess
 	})
 	return
 }
-func (n *NatsEventStore) SubscribeCreatedworkerOfClient(ctx context.Context) (<-chan CreatedWorkerOfClientMessage, error) {
+func (n *NatsEventStore) SubscribeCreatedWorkerOfClient(ctx context.Context) (<-chan CreatedWorkerOfClientMessage, error) {
 	m := CreatedWorkerOfClientMessage{}
 	n.workerOfClientCreatedChan = make(chan CreatedWorkerOfClientMessage, 64)
 	ch := make(chan *nats.Msg, 64)

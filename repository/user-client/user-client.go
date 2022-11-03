@@ -8,7 +8,7 @@ import (
 
 // Implementing design patron Repository
 type UserClientRepository interface {
-	CloseUserClient()
+	Close()
 	InsertUserClient(ctx context.Context, userClient *models.UserClient) error
 	ListUsersClients(ctx context.Context) ([]*models.UserClient, error)
 }
@@ -19,6 +19,11 @@ var repositoryUserClient UserClientRepository
 // Constructor
 func SetClientRepository(repository UserClientRepository) {
 	repositoryUserClient = repository
+}
+
+// Implement the UserRepository interface, func close
+func Close() {
+	repositoryUserClient.Close()
 }
 
 // Implement the UserRepositoryClient interface, func insert userClient

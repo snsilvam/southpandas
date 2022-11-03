@@ -8,7 +8,7 @@ import (
 
 // Implementing design patron Repository
 type UserExternalWorkerRepository interface {
-	CloseUserExternalWorker()
+	Close()
 	InsertUserExternalWorker(ctx context.Context, userExternalWorker *models.UserExternalWorker) error
 	ListUsersExternalWorkers(ctx context.Context) ([]*models.UserExternalWorker, error)
 }
@@ -22,8 +22,8 @@ func SetRepositoryUserExternalWorker(r UserExternalWorkerRepository) {
 }
 
 // Implement the UserExternalWorkerRepository interface, func close
-func CloseUserExternalWorker() {
-	repositoryUserExternal.CloseUserExternalWorker()
+func Close() {
+	repositoryUserExternal.Close()
 }
 
 // Implement the UserExternalWorkerRepository interface, func insert userExternalWorker

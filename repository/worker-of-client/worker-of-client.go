@@ -8,9 +8,9 @@ import (
 
 // Implementing design patron Repository
 type WorkerOfClientRepository interface {
-	CloseWorkerOfClient()
+	Close()
 	InsertWorkerOfClient(ctx context.Context, workerOfClient *models.WorkerOfClient) error
-	ListWorkerOfClient(ctx context.Context) ([]*models.WorkerOfClient, error)
+	ListWorkersOfClient(ctx context.Context) ([]*models.WorkerOfClient, error)
 }
 
 // Abstraction of db
@@ -22,8 +22,8 @@ func SetRepositoryWorkerOfClient(r WorkerOfClientRepository) {
 }
 
 // Implement the WorkerOfClientRepository interface, func close
-func CloseWorkerOfClient() {
-	repositoryWorkerOfClient.CloseWorkerOfClient()
+func Close() {
+	repositoryWorkerOfClient.Close()
 }
 
 // Implement the WorkerOfClientRepository interface, func insert workerOfClient
@@ -32,6 +32,6 @@ func InsertWorkerOfClient(ctx context.Context, workerOfClient *models.WorkerOfCl
 }
 
 // Implement the WorkerOfClientRepository interface, func list workerOfClient
-func ListWorkerOfClient(ctx context.Context) ([]*models.WorkerOfClient, error) {
-	return repositoryWorkerOfClient.ListWorkerOfClient(ctx)
+func ListWorkersOfClient(ctx context.Context) ([]*models.WorkerOfClient, error) {
+	return repositoryWorkerOfClient.ListWorkersOfClient(ctx)
 }

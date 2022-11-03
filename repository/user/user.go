@@ -8,7 +8,7 @@ import (
 
 // Implementing design patron Repository
 type UserRepository interface {
-	CloseUser()
+	Close()
 	InsertUser(ctx context.Context, user *models.User) error
 	ListUsers(ctx context.Context) ([]*models.User, error)
 }
@@ -22,8 +22,8 @@ func SetRepository(r UserRepository) {
 }
 
 // Implement the UserRepository interface, func close
-func CloseUser() {
-	repository.CloseUser()
+func Close() {
+	repository.Close()
 }
 
 // Implement the UserRepository interface, func insert user

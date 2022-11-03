@@ -39,7 +39,7 @@ func (repo *PostgresRepositoryUserExternalWorker) InsertUserExternalWorker(ctx c
 	return err
 }
 
-func (repo *PostgresRepositoryUserExternalWorker) ListUsersExternalWokers(ctx context.Context) ([]*models.UserExternalWorker, error) {
+func (repo *PostgresRepositoryUserExternalWorker) ListUsersExternalWorkers(ctx context.Context) ([]*models.UserExternalWorker, error) {
 	rows, err := repo.db.QueryContext(ctx, "SELECT id, contracttype, workexperience, workremote, willingnesstravel, currentsalary, expectedsalary, possibilityofrotation, profilelinkedln, workarea, descriptionworkarea, user_id, created_at FROM userexternalworker")
 	if err != nil {
 		return nil, err
