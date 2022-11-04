@@ -9,8 +9,8 @@ import (
 // Implementing design patron Repository
 type UserSouthpandasRepository interface {
 	Close()
-	InsertUserSouthpandas(ctx context.Context, userSouthpandas *models.UserSouthPandas) error
-	ListUsersSouthpandas(ctx context.Context) ([]*models.UserSouthPandas, error)
+	InsertUserSouthPandas(ctx context.Context, userSouthpandas *models.UserSouthPandas) error
+	ListUsersSouthPandas(ctx context.Context) ([]*models.UserSouthPandas, error)
 }
 
 // Abstraction of db
@@ -27,11 +27,11 @@ func Close() {
 }
 
 // Implement the UserSouthpandasRepository interface, func insert userSouthpandas
-func InsertUserSouthpandas(ctx context.Context, userSouthpandas *models.UserSouthPandas) error {
-	return repositoryUserSouthpandas.InsertUserSouthpandas(ctx, userSouthpandas)
+func InsertUserSouthPandas(ctx context.Context, userSouthpandas *models.UserSouthPandas) error {
+	return repositoryUserSouthpandas.InsertUserSouthPandas(ctx, userSouthpandas)
 }
 
 // Implement the UserSouthpandasRepository interface, func list userSouthpandas
-func ListUsersSouthpandas(ctx context.Context) ([]*models.UserSouthPandas, error) {
-	return repositoryUserSouthpandas.ListUsersSouthpandas(ctx)
+func ListUsersSouthPandas(ctx context.Context) ([]*models.UserSouthPandas, error) {
+	return repositoryUserSouthpandas.ListUsersSouthPandas(ctx)
 }

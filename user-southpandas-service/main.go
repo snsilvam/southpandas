@@ -40,7 +40,7 @@ func main() {
 		log.Fatal(err)
 	}
 	//Por medio del objeto repo inicializamos el objeto Repository
-	repository.SetSouthPandasRepository(repo)
+	repository.SetRepositoryUserSouthpandas(repo)
 	//Iniciamos el objeto para el bus de nast
 	n, err := events.NewNats(fmt.Sprintf("nats://%s", cfg.NatsAddress))
 	if err != nil {

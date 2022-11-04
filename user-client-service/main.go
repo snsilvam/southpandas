@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/kelseyhightower/envconfig"
 	"southpandas.com/go/cqrs/database"
-	events "southpandas.com/go/cqrs/events/userClient"
+	events "southpandas.com/go/cqrs/events/user-client"
 	repository "southpandas.com/go/cqrs/repository/user-client"
 )
 
