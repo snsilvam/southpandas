@@ -28,6 +28,58 @@ services:
       POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_DB: southpandasdb
       NATS_ADDRESS: "nats:4222"
+  user-client:
+    build: "."
+    command: "user-client-service"
+    depends_on: 
+      - "postgres"
+      - "nats"
+    ports:
+      - "8080"
+    environment:
+      POSTGRES_USER: southpandas
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: southpandasdb
+      NATS_ADDRESS: "nats:4222"
+  user-external-worker:
+    build: "."
+    command: "user-external-worker-service"
+    depends_on: 
+      - "postgres"
+      - "nats"
+    ports:
+      - "8080"
+    environment:
+      POSTGRES_USER: southpandas
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: southpandasdb
+      NATS_ADDRESS: "nats:4222"
+  user-of-client:
+    build: "."
+    command: "user-of-client-service"
+    depends_on: 
+      - "postgres"
+      - "nats"
+    ports:
+      - "8080"
+    environment:
+      POSTGRES_USER: southpandas
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: southpandasdb
+      NATS_ADDRESS: "nats:4222"
+  user-southpandas:
+    build: "."
+    command: "user-southpandas-service"
+    depends_on: 
+      - "postgres"
+      - "nats"
+    ports:
+      - "8080"
+    environment:
+      POSTGRES_USER: southpandas
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: southpandasdb
+      NATS_ADDRESS: "nats:4222"
   query:
     build: "."
     command: "query-service"
