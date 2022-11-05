@@ -6,34 +6,33 @@ import (
 	"log"
 	"net/http"
 
-	"southpandas.com/go/cqrs/events"
+	events "southpandas.com/go/cqrs/events/user-south-pandas"
 	"southpandas.com/go/cqrs/models"
-	"southpandas.com/go/cqrs/repository"
-	"southpandas.com/go/cqrs/search"
+	repository "southpandas.com/go/cqrs/repository/user-southpandas"
+	search "southpandas.com/go/cqrs/search/user-south-pandas"
 )
 
-func onCreatedUser(m events.CreatedUserMessage) {
-	user := models.User{
+func onCreatedUserSouthPandas(m events.CreatedUserSouthPandasMessage) {
+	userSouthPandas := models.UserSouthPandas{
 		ID:        m.ID,
-		Address:   m.Address,
-		Email:     m.Email,
-		Name:      m.Name,
+		Type:      m.Type_user,
+		User_ID:   m.User_ID,
 		CreatedAt: m.CreatedAt,
 	}
-	if err := search.IndexUser(context.Background(), user); err != nil {
+	if err := search.IndexUserSouthPandas(context.Background(), userSouthPandas); err != nil {
 		log.Printf("Se presento un error en la indexacion de la informacion: %v", err)
 	}
 }
-func listUsersHandler(w http.ResponseWriter, r *http.Request) {
+func listUserSouthPandasHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	var err error
-	users, err := repository.ListUsers(ctx)
+	userSouthPandas, err := repository.ListUsersSouthPandas(ctx)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	w.Header().Set("Content-Type", "appplication/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(users)
+	json.NewEncoder(w).Encode(userSouthPandas)
 }
 func searchHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
@@ -43,12 +42,12 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Por favor ingresa un query", http.StatusBadRequest)
 	}
 
-	users, err := search.SearchUser(ctx, query)
+	userSouthPandas, err := search.SearchUserSouthPandas(ctx, query)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "appplication/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(users)
+	json.NewEncoder(w).Encode(userSouthPandas)
 }

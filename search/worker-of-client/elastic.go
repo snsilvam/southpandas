@@ -28,25 +28,25 @@ func (r *ElasticSearchRepository) Close() {
 	//Esta funcion, no esta disponible en la implementacion actual
 }
 
-func (r *ElasticSearchRepository) IndexUserSouthPanda(ctx context.Context, userSouthPanda models.UserSouthPandas) error {
-	body, _ := json.Marshal(userSouthPanda)
+func (r *ElasticSearchRepository) IndexWorkerOfClient(ctx context.Context, workerOfClient models.WorkerOfClient) error {
+	body, _ := json.Marshal(workerOfClient)
 	_, err := r.client.Index(
-		"userSouthPandas",
+		"workerOfClients",
 		bytes.NewReader(body),
-		r.client.Index.WithDocumentID(userSouthPanda.ID),
+		r.client.Index.WithDocumentID(workerOfClient.ID),
 		r.client.Index.WithContext(ctx),
 		r.client.Index.WithRefresh("wait_for"),
 	)
 	return err
 }
 
-func (r *ElasticSearchRepository) SearchUserSouthPanda(ctx context.Context, query string) (results []models.UserSouthPandas, err error) {
+func (r *ElasticSearchRepository) SearchWorkerOfClient(ctx context.Context, query string) (results []models.WorkerOfClient, err error) {
 	var buf bytes.Buffer
 	searchQuery := map[string]interface{}{
 		"query": map[string]interface{}{
 			"multi_match": map[string]interface{}{
 				"query":            query,
-				"fields":           []string{"type"},
+				"fields":           []string{"description"},
 				"fuzziness":        3,
 				"cutoff_frequency": 0.0001,
 			},
@@ -57,7 +57,7 @@ func (r *ElasticSearchRepository) SearchUserSouthPanda(ctx context.Context, quer
 	}
 	res, err := r.client.Search(
 		r.client.Search.WithContext(ctx),
-		r.client.Search.WithIndex("userSouthPandas"),
+		r.client.Search.WithIndex("workerOfClients"),
 		r.client.Search.WithBody(&buf),
 		r.client.Search.WithTrackTotalHits(true),
 	)
@@ -79,17 +79,17 @@ func (r *ElasticSearchRepository) SearchUserSouthPanda(ctx context.Context, quer
 		return nil, err
 	}
 
-	var userSouthPandas []models.UserSouthPandas
+	var workerOfClients []models.WorkerOfClient
 	for _, hit := range eRes["hits"].(map[string]interface{})["hits"].([]interface{}) {
-		userSouthPanda := models.UserSouthPandas{}
+		workerOfClient := models.WorkerOfClient{}
 		source := hit.(map[string]interface{})["_source"]
 		marshal, err := json.Marshal(source)
 		if err != nil {
 			return nil, err
 		}
-		if err := json.Unmarshal(marshal, &userSouthPanda); err == nil {
-			userSouthPandas = append(userSouthPandas, userSouthPanda)
+		if err := json.Unmarshal(marshal, &workerOfClient); err == nil {
+			workerOfClients = append(workerOfClients, workerOfClient)
 		}
 	}
-	return userSouthPandas, nil
+	return workerOfClients, nil
 }

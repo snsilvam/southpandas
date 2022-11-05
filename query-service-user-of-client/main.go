@@ -8,9 +8,9 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/kelseyhightower/envconfig"
 	"southpandas.com/go/cqrs/database"
-	"southpandas.com/go/cqrs/events"
-	"southpandas.com/go/cqrs/repository"
-	"southpandas.com/go/cqrs/search"
+	events "southpandas.com/go/cqrs/events/worker-of-client"
+	repository "southpandas.com/go/cqrs/repository/worker-of-client"
+	search "southpandas.com/go/cqrs/search/worker-of-client"
 )
 
 type Config struct {
@@ -23,13 +23,13 @@ type Config struct {
 
 func newRouter() (router *mux.Router) {
 	router = mux.NewRouter()
-	router.HandleFunc("/users", listUsersHandler).Methods(http.MethodGet)
+	router.HandleFunc("/workers-of-client", listworkerOfClientHandler).Methods(http.MethodGet)
 	router.HandleFunc("/search", searchHandler).Methods(http.MethodGet)
 	return
 }
 
 func main() {
-	//Procesa, las variables de entorno, definidas en el config
+	//Procesa, las variables de entorno, definidas en el config, para abrir conexion con db
 	var cfg Config
 	err := envconfig.Process("", &cfg)
 	if err != nil {
@@ -37,11 +37,11 @@ func main() {
 	}
 	//Conexion para el servicio de postgres
 	addr := fmt.Sprintf("postgres://%s:%s@postgres/%s?sslmode=disable", cfg.PostgresUser, cfg.PostgresPassword, cfg.PostgresDB)
-	repo, err := database.NewPostgresRepository(addr)
+	repo, err := database.NewPostgresRepositoryWorkerOfClient(addr)
 	if err != nil {
 		log.Fatal(err)
 	}
-	repository.SetRepository(repo)
+	repository.SetRepositoryWorkerOfClient(repo)
 	//Conexion para el servicio de elastic search
 	es, err := search.NewElastic(fmt.Sprintf("http://%s", cfg.ElasticsearchAddress))
 	if err != nil {
@@ -56,7 +56,7 @@ func main() {
 		log.Fatal(err)
 	}
 	//Suscribimos nuestro query a un evento
-	err = n.OnCreateUser(onCreatedUser)
+	err = n.OnCreateWorkerOfClient(onCreatedWokerOfClient)
 	if err != nil {
 		log.Fatal(err)
 	}
