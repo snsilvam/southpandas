@@ -80,9 +80,69 @@ services:
       POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_DB: southpandasdb
       NATS_ADDRESS: "nats:4222"
-  query:
+  query-user:
     build: "."
-    command: "query-service"
+    command: "query-service-user"
+    depends_on: 
+      - "postgres"
+      - "nats"
+      - "elasticsearch"
+    ports:
+      - "8080"
+    environment:
+      POSTGRES_USER: southpandas
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: southpandasdb
+      NATS_ADDRESS: "nats:4222"
+      ELASTICSEARCH_ADDRESS: "elasticsearch:9200"
+  query-user-client:
+    build: "."
+    command: "query-service-user-client"
+    depends_on: 
+      - "postgres"
+      - "nats"
+      - "elasticsearch"
+    ports:
+      - "8080"
+    environment:
+      POSTGRES_USER: southpandas
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: southpandasdb
+      NATS_ADDRESS: "nats:4222"
+      ELASTICSEARCH_ADDRESS: "elasticsearch:9200"
+  query-user-external:
+    build: "."
+    command: "query-service-user-external"
+    depends_on: 
+      - "postgres"
+      - "nats"
+      - "elasticsearch"
+    ports:
+      - "8080"
+    environment:
+      POSTGRES_USER: southpandas
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: southpandasdb
+      NATS_ADDRESS: "nats:4222"
+      ELASTICSEARCH_ADDRESS: "elasticsearch:9200"
+  query-user-of-client:
+    build: "."
+    command: "query-service-user-external"
+    depends_on: 
+      - "postgres"
+      - "nats"
+      - "elasticsearch"
+    ports:
+      - "8080"
+    environment:
+      POSTGRES_USER: southpandas
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: southpandasdb
+      NATS_ADDRESS: "nats:4222"
+      ELASTICSEARCH_ADDRESS: "elasticsearch:9200"
+  query-user-southpandas:
+    build: "."
+    command: "query-service-user-external"
     depends_on: 
       - "postgres"
       - "nats"
