@@ -23,8 +23,8 @@ type Config struct {
 
 func newRouter() (router *mux.Router) {
 	router = mux.NewRouter()
-	router.HandleFunc("/client-users", listUsersClientHandler).Methods(http.MethodGet)
-	router.HandleFunc("/client-search", searchHandler).Methods(http.MethodGet)
+	router.HandleFunc("/users-clients", listUsersClientHandler).Methods(http.MethodGet)
+	router.HandleFunc("/users-clients-search", searchHandler).Methods(http.MethodGet)
 	return
 }
 

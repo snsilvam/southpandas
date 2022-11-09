@@ -24,7 +24,7 @@ type Config struct {
 func newRouter() (router *mux.Router) {
 	router = mux.NewRouter()
 	router.HandleFunc("/users-southpandas", listUserSouthPandasHandler).Methods(http.MethodGet)
-	router.HandleFunc("/search", searchHandler).Methods(http.MethodGet)
+	router.HandleFunc("/users-southpandas-search", searchHandler).Methods(http.MethodGet)
 	return
 }
 
