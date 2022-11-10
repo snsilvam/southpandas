@@ -35,7 +35,7 @@ func (repo *PostgresRepositoryUser) Close() {
 }
 
 func (repo *PostgresRepositoryUser) InsertUser(ctx context.Context, user *models.User) error {
-	_, err := repo.db.ExecContext(ctx, "INSERT INTO users (id, name, email, address) values ($1, $2, $3, $4)", user.ID, user.Email, user.Address, user.Name)
+	_, err := repo.db.ExecContext(ctx, "INSERT INTO users (id, name, email, address) values ($1, $2, $3, $4)", user.ID, user.Name, user.Email, user.Address)
 	return err
 }
 

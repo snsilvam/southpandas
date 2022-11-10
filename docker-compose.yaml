@@ -161,4 +161,13 @@ services:
       - "8080:80"
     depends_on:
       - user
-      - query
+      - user-client
+      - user-external-worker
+      - user-of-client
+      - user-southpandas
+      - query-user
+      - query-user-client
+      - query-user-external
+      - query-user-of-client
+      - query-user-southpandas
+      
