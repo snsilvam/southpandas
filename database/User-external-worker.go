@@ -4,6 +4,8 @@ import (
 	//El paquete contexto nos permite definir variables tipo contexto, que controlaran las solicitudes entrantes a un servidor.
 	//The context package allows us to define context variables that will control incoming requests to a server.
 	"context"
+	"fmt"
+
 	/*El paquete database/sql entrega una interfaz a nuestra aplicacion para interactuar con bases de datos sql.
 	The database/sql package provides an interface to our application to interact with sql databases.*/
 	"database/sql"
@@ -42,13 +44,15 @@ func (repo *PostgresRepositoryUserExternalWorker) InsertUserExternalWorker(ctx c
 func (repo *PostgresRepositoryUserExternalWorker) ListUsersExternalWorkers(ctx context.Context) ([]*models.UserExternalWorker, error) {
 	rows, err := repo.db.QueryContext(ctx, "SELECT id, contracttype, workexperience, workremote, willingnesstravel, currentsalary, expectedsalary, possibilityofrotation, profilelinkedln, workarea, descriptionworkarea, user_id, created_at FROM userexternalworker")
 	if err != nil {
+		fmt.Println("☺☺☺Error en la lectura del modelo userexternalworker")
 		return nil, err
 	}
 	defer rows.Close()
 	usersExternalWorkers := []*models.UserExternalWorker{}
 	for rows.Next() {
 		userExternalWorker := &models.UserExternalWorker{}
-		if err := rows.Scan(userExternalWorker.ID, userExternalWorker.ContractType, userExternalWorker.WorkExperience, userExternalWorker.WorkRemote, userExternalWorker.Willingnesstravel, userExternalWorker.CurrentSalary, userExternalWorker.ExpectedSalary, userExternalWorker.PossibilityOfRotation, userExternalWorker.Profilelinkedln, userExternalWorker.Workarea, userExternalWorker.DescriptionWorkArea, userExternalWorker.User_id, &userExternalWorker.CreatedAt); err != nil {
+		if err := rows.Scan(&userExternalWorker.ID, &userExternalWorker.ContractType, &userExternalWorker.WorkExperience, &userExternalWorker.WorkRemote, &userExternalWorker.Willingnesstravel, &userExternalWorker.CurrentSalary, &userExternalWorker.ExpectedSalary, &userExternalWorker.PossibilityOfRotation, &userExternalWorker.Profilelinkedln, &userExternalWorker.Workarea, &userExternalWorker.DescriptionWorkArea, &userExternalWorker.User_id, &userExternalWorker.CreatedAt); err != nil {
+			fmt.Println("☺☺☺Error en la lectura del modelo userexternalworker")
 			return nil, err
 		}
 		usersExternalWorkers = append(usersExternalWorkers, userExternalWorker)

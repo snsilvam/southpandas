@@ -127,7 +127,7 @@ services:
       ELASTICSEARCH_ADDRESS: "elasticsearch:9200"
   query-user-of-client:
     build: "."
-    command: "query-service-user-external"
+    command: "query-service-user-of-client"
     depends_on: 
       - "postgres"
       - "nats"
@@ -142,7 +142,7 @@ services:
       ELASTICSEARCH_ADDRESS: "elasticsearch:9200"
   query-user-southpandas:
     build: "."
-    command: "query-service-user-external"
+    command: "query-service-user-southpandas"
     depends_on: 
       - "postgres"
       - "nats"

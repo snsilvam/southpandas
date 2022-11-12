@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -38,6 +39,7 @@ func listUserExternalWorkerHandler(w http.ResponseWriter, r *http.Request) {
 	userExternalWorker, err := repository.ListUsersExternalWorkers(ctx)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		fmt.Println("☺☺☺Error en la lectura del modelo userexternalworker")
 	}
 	w.Header().Set("Content-Type", "appplication/json")
 	w.WriteHeader(http.StatusOK)
