@@ -31,7 +31,7 @@ func (r *ElasticSearchRepository) Close() {
 func (r *ElasticSearchRepository) IndexUserClient(ctx context.Context, userClient models.UserClient) error {
 	body, _ := json.Marshal(userClient)
 	_, err := r.client.Index(
-		"userClients",
+		"userClient",
 		bytes.NewReader(body),
 		r.client.Index.WithDocumentID(userClient.ID),
 		r.client.Index.WithContext(ctx),
@@ -57,7 +57,7 @@ func (r *ElasticSearchRepository) SearchUserClient(ctx context.Context, query st
 	}
 	res, err := r.client.Search(
 		r.client.Search.WithContext(ctx),
-		r.client.Search.WithIndex("userClients"),
+		r.client.Search.WithIndex("userClient"),
 		r.client.Search.WithBody(&buf),
 		r.client.Search.WithTrackTotalHits(true),
 	)
